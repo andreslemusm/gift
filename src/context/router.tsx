@@ -1,6 +1,10 @@
 import { Characters } from "../routes/characters";
 import { Layout } from "../routes/layout";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +13,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: () => redirect("./characters"),
+      },
+      {
+        path: "characters",
         element: <Characters />,
       },
     ],
