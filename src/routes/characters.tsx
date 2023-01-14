@@ -7,7 +7,7 @@ const Characters = () => {
 
   if (peopleQuery.isSuccess) {
     return (
-      <ul className="px-4 divide-y divide-slate-700">
+      <ul className="px-4 pt-1 divide-y divide-slate-700">
         {peopleQuery.data.results.map((people) => {
           const homeworldURLSplitted = people.homeworld.split("/");
 
@@ -30,7 +30,7 @@ const Characters = () => {
 
   if (peopleQuery.isError) {
     return (
-      <p role="alert" className="text-white">
+      <p role="alert" className="px-4 text-white">
         An error has ocurred
       </p>
     );
