@@ -16,7 +16,7 @@ module.exports = {
       // Primary / Neutrals
       slate: colors.slate,
       // Supporting
-      lime: colors.lime,
+      green: colors.green,
       white: colors.white,
       transparent: colors.transparent,
       inherit: colors.inherit,

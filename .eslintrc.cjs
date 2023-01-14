@@ -100,7 +100,6 @@ module.exports = {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",
         "unicorn/filename-case": "error",
-        "react/no-multi-comp": "error",
         "react/jsx-fragments": ["error", "element"],
         "react/function-component-definition": [
           "error",
