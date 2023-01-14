@@ -1,3 +1,3 @@
 export const Favorites = () => {
-  return <div>Hello world!</div>;
+  return <div className="px-4">favorites</div>;
 };

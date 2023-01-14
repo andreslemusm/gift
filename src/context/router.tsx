@@ -1,4 +1,5 @@
 import { Characters } from "../routes/characters";
+import { Favorites } from "../routes/favorites";
 import { Layout } from "../routes/layout";
 import {
   RouterProvider,
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "characters",
         element: <Characters />,
+      },
+      {
+        path: "favorites",
+        element: <Favorites />,
       },
     ],
   },
