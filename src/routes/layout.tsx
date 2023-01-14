@@ -1,6 +1,7 @@
 import { Dialog } from "@headlessui/react";
+import { Fragment } from "react";
 import clsx from "clsx";
-import { Fragment, useState } from "react";
+import { useDisclosure } from "../utils/use-disclosure";
 import { Menu, X } from "lucide-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
@@ -25,25 +26,17 @@ const Layout = () => {
 };
 
 const NavDialog = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, close, open } = useDisclosure();
 
   return (
     <Fragment>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="p-1 text-white"
-      >
+      <button type="button" onClick={open} className="p-1 text-white">
         <span className="sr-only">Open navigation menu</span>
         <Menu className="h-6 w-6" aria-hidden />
       </button>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog open={isOpen} onClose={close}>
         <Dialog.Panel className="p-4 absolute inset-0 h-screen w-screen z-30 origin-top-left transform bg-slate-900">
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="p-1 text-white"
-          >
+          <button type="button" onClick={close} className="p-1 text-white">
             <span className="sr-only">Close navigation menu</span>
             <X className="h-6 w-6" aria-hidden />
           </button>
@@ -52,6 +45,7 @@ const NavDialog = () => {
               <NavLink
                 key={route}
                 to={`/${route}`}
+                onClick={close}
                 className={({ isActive }) =>
                   clsx(
                     isActive ? "text-green-200" : "text-white",
