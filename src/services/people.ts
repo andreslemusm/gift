@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const usePeople = ({ page }: { page: number }) =>
   useQuery({
-    queryKey: ["people", page],
+    queryKey: ["people", "list", page],
     queryFn: async ({ signal }) => {
       const response = await fetch(
         `https://swapi.dev/api/people/?${new URLSearchParams({
