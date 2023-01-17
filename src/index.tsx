@@ -1,4 +1,3 @@
-import { QueryClientProvider } from "./context/query-client";
 import { Provider as ReduxProvider } from "react-redux";
 import { Router } from "./context/router";
 import { StrictMode } from "react";
@@ -14,10 +13,8 @@ if (!container)
 
 createRoot(container).render(
   <StrictMode>
-    <QueryClientProvider>
-      <ReduxProvider store={store}>
-        <Router />
-      </ReduxProvider>
-    </QueryClientProvider>
+    <ReduxProvider store={store}>
+      <Router />
+    </ReduxProvider>
   </StrictMode>
 );

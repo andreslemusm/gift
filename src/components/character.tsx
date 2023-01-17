@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { RootState } from "../redux/store";
 import clsx from "clsx";
 import { favoritesSilce } from "../redux/favorites";
-import { usePlanet } from "../services/planets";
+import { swapiApi } from "../redux/swapi.service";
 import { Heart, MapPin } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -67,7 +67,7 @@ const Character = ({
 };
 
 const PlanetName = ({ planetId }: { planetId: number }) => {
-  const planet = usePlanet({ planetId });
+  const planet = swapiApi.useGetPlanetQuery({ planetId });
 
   if (planet.isSuccess) {
     return <Fragment>{planet.data.name}</Fragment>;

@@ -1,9 +1,9 @@
 import { Character } from "../components/character";
 import { Loader2 } from "lucide-react";
-import { usePeople } from "../services/people";
+import { swapiApi } from "../redux/swapi.service";
 
 const Characters = () => {
-  const peopleQuery = usePeople({ page: 1 });
+  const peopleQuery = swapiApi.useGetPeopleQuery({ page: 1 });
 
   if (peopleQuery.isSuccess) {
     return (
