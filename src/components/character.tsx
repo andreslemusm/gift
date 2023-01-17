@@ -1,12 +1,8 @@
 import { Fragment } from "react";
 import clsx from "clsx";
+import { useFavorites } from "../context/favorites";
 import { usePlanet } from "../services/planets";
 import { Heart, MapPin } from "lucide-react";
-import {
-  addFavorite,
-  deleteFavorite,
-  useFavorites,
-} from "../context/favorites";
 
 const Character = ({
   name,
@@ -19,7 +15,7 @@ const Character = ({
   birthYear: string;
   planetId: number;
 }) => {
-  const { favorites, setFavorites } = useFavorites();
+  const { favorites, dispatch } = useFavorites();
   const isFavorite = Boolean(
     favorites.find((favorite) => favorite.name === name)
   );
@@ -41,8 +37,11 @@ const Character = ({
         type="button"
         onClick={() =>
           isFavorite
-            ? deleteFavorite(setFavorites, name)
-            : addFavorite(setFavorites, { birthYear, gender, name, planetId })
+            ? dispatch({ type: "delete", favoriteName: name })
+            : dispatch({
+                type: "add",
+                favorite: { birthYear, gender, name, planetId },
+              })
         }
         className="shrink-0 p-1 rounded-full"
       >

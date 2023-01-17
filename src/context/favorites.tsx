@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 type Favorite = {
   name: string;
@@ -9,19 +9,52 @@ type Favorite = {
 
 const FavoritesContext = createContext<{
   favorites: Array<Favorite>;
-  setFavorites: React.Dispatch<React.SetStateAction<Array<Favorite>>>;
+  dispatch: React.Dispatch<
+    | {
+        type: "add";
+        favorite: Favorite;
+      }
+    | {
+        type: "delete";
+        favoriteName: Favorite["name"];
+      }
+  >;
 } | null>(null);
 if (import.meta.env.DEV) {
   FavoritesContext.displayName = "FavoritesContext";
 }
 
+const favoritesReducer = (
+  prevFavorites: Array<Favorite>,
+  action:
+    | { type: "add"; favorite: Favorite }
+    | { type: "delete"; favoriteName: Favorite["name"] }
+) => {
+  switch (action.type) {
+    case "add": {
+      return [...prevFavorites, action.favorite];
+    }
+    case "delete": {
+      return prevFavorites.filter(
+        (favorite) => favorite.name !== action.favoriteName
+      );
+    }
+    default: {
+      throw new Error(`Unhandled action: ${JSON.stringify(action)}`);
+    }
+  }
+};
+
 const FavoritesProvider = ({
   children,
 }: React.PropsWithChildren): React.ReactElement => {
-  const [favorites, setFavorites] = useState<Array<Favorite>>([]);
+  const [favorites, dispatch] = useReducer(
+    favoritesReducer,
+    [] as Array<Favorite>
+  );
 
   return (
-    <FavoritesContext.Provider value={{ favorites, setFavorites }}>
+    <FavoritesContext.Provider value={{ favorites, dispatch }}>
       {children}
     </FavoritesContext.Provider>
   );
@@ -36,17 +69,4 @@ const useFavorites = () => {
   return context;
 };
 
-const addFavorite = (
-  setFavorites: React.Dispatch<React.SetStateAction<Array<Favorite>>>,
-  newFavorite: Favorite
-) => setFavorites((prevFavorites) => [...prevFavorites, newFavorite]);
-
-const deleteFavorite = (
-  setFavorites: React.Dispatch<React.SetStateAction<Array<Favorite>>>,
-  favoriteName: Favorite["name"]
-) =>
-  setFavorites((prevFavorites) =>
-    prevFavorites.filter((favorite) => favorite.name !== favoriteName)
-  );
-
-export { FavoritesProvider, useFavorites, addFavorite, deleteFavorite };
+export { FavoritesProvider, useFavorites };
