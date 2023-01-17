@@ -1,12 +1,13 @@
 import { Character } from "../components/character";
+import { RootState } from "../redux/store";
 import { Search } from "lucide-react";
-import { useFavorites } from "../context/favorites";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export const Favorites = () => {
   const [query, setQuery] = useState("");
 
-  const { favorites } = useFavorites();
+  const favorites = useSelector((state: RootState) => state.favorites);
   const filteredFavorites = favorites.filter((favorite) =>
     favorite.name.toLowerCase().startsWith(query.toLowerCase())
   );

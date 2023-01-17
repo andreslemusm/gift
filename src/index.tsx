@@ -1,8 +1,9 @@
-import { FavoritesProvider } from "./context/favorites";
 import { QueryClientProvider } from "./context/query-client";
+import { Provider as ReduxProvider } from "react-redux";
 import { Router } from "./context/router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { store } from "./redux/store";
 import "./index.css";
 
 const container = document.getElementById("root");
@@ -14,9 +15,9 @@ if (!container)
 createRoot(container).render(
   <StrictMode>
     <QueryClientProvider>
-      <FavoritesProvider>
+      <ReduxProvider store={store}>
         <Router />
-      </FavoritesProvider>
+      </ReduxProvider>
     </QueryClientProvider>
   </StrictMode>
 );

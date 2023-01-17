@@ -1,8 +1,10 @@
 import { Fragment } from "react";
+import { RootState } from "../redux/store";
 import clsx from "clsx";
-import { useFavorites } from "../context/favorites";
+import { favoritesSilce } from "../redux/favorites";
 import { usePlanet } from "../services/planets";
 import { Heart, MapPin } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Character = ({
   name,
@@ -15,10 +17,12 @@ const Character = ({
   birthYear: string;
   planetId: number;
 }) => {
-  const { favorites, dispatch } = useFavorites();
+  const favorites = useSelector((state: RootState) => state.favorites);
   const isFavorite = Boolean(
     favorites.find((favorite) => favorite.name === name)
   );
+
+  const dispatch = useDispatch();
 
   return (
     <article className="py-4 flex justify-between items-start">
@@ -32,16 +36,19 @@ const Character = ({
           <PlanetName planetId={planetId} />
         </span>
       </div>
-
       <button
         type="button"
         onClick={() =>
           isFavorite
-            ? dispatch({ type: "delete", favoriteName: name })
-            : dispatch({
-                type: "add",
-                favorite: { birthYear, gender, name, planetId },
-              })
+            ? dispatch(favoritesSilce.actions.deleteFavorite(name))
+            : dispatch(
+                favoritesSilce.actions.addFavorite({
+                  birthYear,
+                  gender,
+                  name,
+                  planetId,
+                })
+              )
         }
         className="shrink-0 p-1 rounded-full"
       >
