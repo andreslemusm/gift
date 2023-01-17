@@ -1,7 +1,12 @@
+import { Fragment } from "react";
 import clsx from "clsx";
 import { usePlanet } from "../services/planets";
-import { Fragment, useState } from "react";
 import { Heart, MapPin } from "lucide-react";
+import {
+  addFavorite,
+  deleteFavorite,
+  useFavorites,
+} from "../context/favorites";
 
 const Character = ({
   name,
@@ -14,6 +19,11 @@ const Character = ({
   birthYear: string;
   planetId: number;
 }) => {
+  const { favorites, setFavorites } = useFavorites();
+  const isFavorite = Boolean(
+    favorites.find((favorite) => favorite.name === name)
+  );
+
   return (
     <article className="py-4 flex justify-between items-start">
       <div className="space-y-2">
@@ -26,30 +36,27 @@ const Character = ({
           <PlanetName planetId={planetId} />
         </span>
       </div>
-      <FavoriteButton />
+
+      <button
+        type="button"
+        onClick={() =>
+          isFavorite
+            ? deleteFavorite(setFavorites, name)
+            : addFavorite(setFavorites, { birthYear, gender, name, planetId })
+        }
+        className="shrink-0 p-1 rounded-full"
+      >
+        <span className="sr-only">
+          {isFavorite ? "Unbookmark" : "Bookmark"}
+        </span>
+        <Heart
+          className={clsx(
+            isFavorite && "fill-green-200",
+            "text-green-200 h-4 w-4"
+          )}
+        />
+      </button>
     </article>
-  );
-};
-
-const FavoriteButton = () => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  return (
-    <button
-      type="button"
-      onClick={() => setIsBookmarked(!isBookmarked)}
-      className="shrink-0 p-1 rounded-full"
-    >
-      <span className="sr-only">
-        {isBookmarked ? "Unbookmark" : "Bookmark"}
-      </span>
-      <Heart
-        className={clsx(
-          isBookmarked && "fill-green-200",
-          "text-green-200 h-4 w-4"
-        )}
-      />
-    </button>
   );
 };
 
