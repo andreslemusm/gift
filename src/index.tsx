@@ -1,3 +1,4 @@
+import { FavoritesProvider } from "./context/favorites";
 import { QueryClientProvider } from "./context/query-client";
 import { Router } from "./context/router";
 import { StrictMode } from "react";
@@ -13,7 +14,9 @@ if (!container)
 createRoot(container).render(
   <StrictMode>
     <QueryClientProvider>
-      <Router />
+      <FavoritesProvider>
+        <Router />
+      </FavoritesProvider>
     </QueryClientProvider>
   </StrictMode>
 );
